@@ -30,10 +30,11 @@ class informationModel {
     var file_name = file.name;
     file.mv("public/files/" + file.name, function (err) {});
 
-    await this.pool.query(
+    const result = await this.pool.query(
       "INSERT INTO informations SET picture = ?, file = ?",
       [picture_name, file_name]
     );
+    return result[0].insertId;
   }
 }
 module.exports = informationModel;

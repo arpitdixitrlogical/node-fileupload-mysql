@@ -4,17 +4,25 @@ class InformationController {
     var id = req.params.id;
     let setinfo = await new informationModel(id);
     var info = await setinfo.getRecord();
-    console.log(info);
-    res.send(info);
+    var msg = {
+      success: true,
+      data: info,
+    };
+    res.status(200).send(msg);
   }
   async createRecord(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send("No files were uploaded.");
     }
     let setinfo = await new informationModel(1);
-    var info = await setinfo.createRecord(req.files);
-
-    res.send("Record added successfully");
+    var id = await setinfo.createRecord(req.files);
+    var msg = {
+      success: true,
+      data: {
+        id: id,
+      },
+    };
+    res.status(200).send(msg);
   }
 }
 
